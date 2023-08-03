@@ -24,7 +24,7 @@ Python, FastAPIを使用
 
 ## 開発手段
 
-Test Driven Development (TDD) を使用した
+課題はしっかり決まっているため、テストコードを先に書いた方がイメージがつくと思うので、Test Driven Development (TDD) を使用した
 - RED：ユニットテストを設計して、テストを書く
 - GREEN：APIを書く
 - Refactor：コードをリダクターしたり、綺麗なコードを書く
