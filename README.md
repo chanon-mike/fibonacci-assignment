@@ -1,12 +1,13 @@
-# Speeeインターンシップ課題
+# Speee インターンシップ課題
 
-Fibonacci値を返すREST API
+Fibonacci 値を返す REST API
 
 ## 技術前提
 
-Python, FastAPIを使用
-- Pythonを使う理由：馴染んでいる言語で簡単に書ける
-- FastAPIを使う理由：スピードが速い、REST API対応、型が書ける、テストが簡単、docが自動で生成される
+Python, FastAPI を使用
+
+- Python を使う理由：馴染んでいる言語で簡単に書ける
+- FastAPI を使う理由：スピードが速い、REST API 対応、型が書ける、テストが簡単、doc が自動で生成される
 
 ## ユニットテスト
 
@@ -25,11 +26,12 @@ Python, FastAPIを使用
 ## 開発手段
 
 課題はしっかり決まっているため、テストコードを先に書いた方がイメージがつくと思うので、Test Driven Development (TDD) を使用した
+
 - RED：ユニットテストを設計して、テストを書く
-- GREEN：APIを書く
+- GREEN：API を書く
 - Refactor：コードをリダクターしたり、綺麗なコードを書く
 
-この開発手段を何回もiterateする
+この開発手段を何回も iterate する
 
 ## ディレクトリー説明
 
@@ -39,7 +41,7 @@ Python, FastAPIを使用
 ├── .gitignore # gitに含まれないファイル
 ├── .vscode
 │   └── settings.json
-├── README.md 
+├── README.md
 ├── app
 │   ├── __init__.py
 │   └── main.py # サーバーのファイル
@@ -52,6 +54,7 @@ Python, FastAPIを使用
 ## ソースコード説明
 
 app/main.py
+
 ```
 from fastapi import FastAPI, HTTPException, Request
 from typing import Optional
@@ -103,4 +106,13 @@ async def fibonacci(n: int) -> int:
 ```
 
 tests/fibonacci_test.py
-- 上記のユニットテスト設計表をFastAPIのpytestで書く
+
+- 上記のユニットテスト設計表を FastAPI の pytest で書く
+
+## ローカルでの実行方法
+
+1. リポジトリーをクローンする
+2. `python -m venv venv`で環境を作成する
+3. `source venv/bin/activate`で環境をアクティベートする
+4. `pip install -r requirements.txt`で dependencies をインストールする
+5. `uvicorn app.main:app --reload`でサーバーを起動する
