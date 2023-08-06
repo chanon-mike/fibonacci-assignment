@@ -7,27 +7,27 @@ client = TestClient(app)
 
 def test_fib_no_query():
     response = client.get("/fib", headers={"Content-Type": "application/json"})
-    assert response.status_code == 400
-    assert response.json() == {"status": 400, "message": "Query parameter is required"}
+    assert response.status_code == 422
+    assert response.json() == {"status": 422, "message": "Query parameter is required"}
 
 
 def test_fib_decimal_query():
     response = client.get("/fib?n=-1.5", headers={"Content-Type": "application/json"})
-    assert response.status_code == 400
-    assert response.json() == {"status": 400, "message": "Number must be integer"}
+    assert response.status_code == 422
+    assert response.json() == {"status": 422, "message": "Number must be integer"}
 
 
 def test_fib_string_query():
     response = client.get("/fib?n=xyz", headers={"Content-Type": "application/json"})
-    assert response.status_code == 400
-    assert response.json() == {"status": 400, "message": "Number must be integer"}
+    assert response.status_code == 422
+    assert response.json() == {"status": 422, "message": "Number must be integer"}
 
 
 def test_fib_negative_query():
     response = client.get("/fib?n=-1", headers={"Content-Type": "application/json"})
-    assert response.status_code == 400
+    assert response.status_code == 422
     assert response.json() == {
-        "status": 400,
+        "status": 422,
         "message": "Number must be equal or greater than 0",
     }
 
