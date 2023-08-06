@@ -3,13 +3,14 @@ from typing import Optional
 
 from fastapi.responses import JSONResponse
 
-# FastAPIインスタンスを初期化する
 app = FastAPI()
 
 
-# HTTPExceptionのエラーハンドラーをオーバーライドし、カスタムのエラーメッセージをJSON形式で返す
 @app.exception_handler(HTTPException)
 def custom_http_exception_handler(request: Request, exc: HTTPException):
+    """
+    HTTPExceptionのカスタムハンドラー
+    """
     return JSONResponse(
         status_code=exc.status_code,
         content={"status": exc.status_code, "message": exc.detail},
@@ -17,10 +18,20 @@ def custom_http_exception_handler(request: Request, exc: HTTPException):
 
 
 @app.get("/fib")
-def fib(n: Optional[str | int] = None):  # クエリパラメータnを受け取る
-    # nが指定されていない、または整数に変換できない場合、または0未満の場合はHTTPステータス422と該当するエラーメッセージを返す
+def fib(n: Optional[str | int] = None):
+    """
+    Request Parameters
+    ----------
+    n : int
+        フィボナッチ数列のn番目の値を返す
+
+    Returns
+    -------
+    result : int
+        フィボナッチ数列のn番目の値
+    """
     if n is None:
-        raise ValueError("Query parameter is required")
+        raise HTTPException(status_code=422, detail="Query parameter is required")
 
     try:
         n = int(n)
@@ -37,11 +48,16 @@ def fib(n: Optional[str | int] = None):  # クエリパラメータnを受け取
     return {"result": fib_result}
 
 
-# Fibonacci数列を計算する関数を定義し、整数nを引数に取り、そのn番目のFibonacci数を返す
 def fibonacci(n: int) -> int:
-    if n <= 0:
-        return 0
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
+    """
+    フィボナッチ数列のn番目の値を返す
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    if n <= 1:
+        return n
+    fib0 = 0
+    fib1 = 1
+    for _ in range(2, n + 1):
+        fib0, fib1 = fib1, fib0 + fib1
+    return fib1

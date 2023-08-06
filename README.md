@@ -33,82 +33,46 @@ Python, FastAPI を使用
 
 この開発手段を何回も iterate する
 
+## Fibonacci アルゴリズム
+
+Iteration アルゴリズムを使用して、フィボナッチ数列の n 番目の値を返す関数を作りました。
+
+- Time Complexity: O(n)
+- Space Complexity: O(1)
+
+```python
+def fibonacci(n: int) -> int:
+    """
+    フィボナッチ数列のn番目の値を返す
+    Time Complexity: O(n)
+    Space Complexity: O(1)
+    """
+    if n <= 1:
+        return n
+    fib0 = 0
+    fib1 = 1
+    for _ in range(2, n + 1):
+        fib0, fib1 = fib1, fib0 + fib1
+    return fib1
+```
+
 ## ディレクトリー説明
 
 ```
 .
 ├── .flake8 # lintingの設定
 ├── .gitignore # gitに含まれないファイル
-├── .vscode
+├── .vscode # IDEの設定
 │   └── settings.json
 ├── README.md
-├── app
+├── app # サーバーのファイル
 │   ├── __init__.py
 │   └── main.py # サーバーのファイル
 ├── requirements.txt # プロジェクトのdependencies
-└── tests
+└── tests # テストファイル
     ├── __init__.py
     └── fibonacci_test.py # fibonacci APIのテスト
 ```
-
-## ソースコード説明
-
-app/main.py
-
-```
-from fastapi import FastAPI, HTTPException, Request
-from typing import Optional
-
-from fastapi.responses import JSONResponse
-
-# FastAPIインスタンスを初期化する
-app = FastAPI()
-
-
-# HTTPExceptionのエラーハンドラーをオーバーライドし、カスタムのエラーメッセージをJSON形式で返す
-@app.exception_handler(HTTPException)
-def custom_http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"status": exc.status_code, "message": exc.detail},
-    )
-
-
-@app.get("/fib")
-def fib(n: Optional[str | int] = None): # クエリパラメータnを受け取る
-    # nが指定されていない、または整数に変換できない場合、または0未満の場合はHTTPステータス422と該当するエラーメッセージを返す
-    if n is None:
-        raise HTTPException(status_code=400, detail="Query parameter is required")
-
-    try:
-        n = int(n)
-    except ValueError:
-        raise HTTPException(status_code=422, detail="Number must be integer")
-
-    if n < 0:
-        raise HTTPException(
-            status_code=422, detail="Number must be equal or greater than 0"
-        )
-
-    fib_result = fibonacci(n)
-
-    return {"result": fib_result}
-
-
-
-# Fibonacci数列を計算する非同期関数を定義し、整数nを引数に取り、そのn番目のFibonacci数を返す
-def fibonacci(n: int) -> int:
-    if n <= 0:
-        return 0
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
-```
-
-tests/fibonacci_test.py
-
-- 上記のユニットテスト設計表を FastAPI の pytest で書く
 
 ## ローカルでの実行方法
 
