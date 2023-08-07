@@ -1,4 +1,4 @@
-# Speee インターンシップ課題
+# Fibonacci API 技術課題
 
 Fibonacci 値を返す REST API
 
